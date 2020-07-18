@@ -304,10 +304,10 @@ void use_array() {
     cout << endl;
 
     // find max number
-    int numbers[] = {100,300,50,30,399,102};
+    int numbers[] = {100, 300, 50, 30, 399, 102};
     int max_number = 0;
-    for (int i:numbers){
-        if (i>max_number){
+    for (int i:numbers) {
+        if (i > max_number) {
             max_number = i;
         }
     }
@@ -315,17 +315,84 @@ void use_array() {
 
     // reverse array
     int start_point = 0;
-    int end_point = sizeof(numbers)/sizeof(numbers[0])-1;
+    int end_point = sizeof(numbers) / sizeof(numbers[0]) - 1;
 
-    for (;start_point<end_point;start_point++,end_point--){
+    for (; start_point < end_point; start_point++, end_point--) {
         cout << start_point << "\t" << end_point << endl;
         int trans_number = numbers[start_point];
         numbers[start_point] = numbers[end_point];
         numbers[end_point] = trans_number;
     }
-    for (int i:numbers){
+    for (int i:numbers) {
         cout << i << endl;
     }
+}
+
+void bubble_sort() {
+    int array[9] = {4, 2, 8, 0, 5, 7, 1, 3, 9};
+    int array_length = sizeof(array) / sizeof(array[0]);
+    int trans_number;
+
+    for (int i:array) {
+        cout << i << "\t";
+    }
+
+    cout << endl;
+
+    // bubble sort
+    for (int i = 0; i < array_length - 1; i++) {
+        for (int j = 0; j < array_length - 1 - i; j++) {
+            if (array[j] > array[j + 1]) {
+                trans_number = array[j];
+                array[j] = array[j + 1];
+                array[j + 1] = trans_number;
+            }
+        }
+    }
+
+    for (int i:array) {
+        cout << i << "\t";
+    }
+    cout << endl;
+
+}
+
+void double_dimensional_array() {
+    // fout methods
+    int arry1[2][3];    // 1
+    int arry2[2][3] = { // 2
+            {1,2,3},
+            {4,5,6}
+    };
+    int arry3[2][3]={1,2,3,4,5,6}; // 3
+    int arry4[][3]={1,2,3}; // 4
+
+    cout << "double dimensional array use memory:" << sizeof(arry2) << endl;
+    cout << "double dimensional array address:" << (long)arry2 << endl;
+    // there have three students score please save it use array and print it
+    /* zhangsan  100  100  100
+     * lisi      90   50   100
+     * wangwu    60   70   80
+     * */
+    float students_score[3][3] = {
+            {1100,100,100},
+            {90,50,100},
+            {60,70,80}
+    };
+
+//    for (int i=0;i<(sizeof(students_score)/sizeof(students_score[0]));i++){
+//        for (int j=0;j<(sizeof(students_score[0])/sizeof(students_score[0][0]));i++){
+//            cout << students_score[j][i] << "\t";
+//        }
+//        cout << endl;
+//    }
+    for (int i=0;i<3;i++){
+        for (int j=0;j<3;j++){
+            cout << students_score[i][j] << "\t";
+        }
+        cout << endl;
+    }
+
 }
 
 int main() {
@@ -348,6 +415,8 @@ int main() {
     print_multiplication_table();
     use_goto();
     use_array();
+    bubble_sort();
+    double_dimensional_array();
     return 0;
 }
 
