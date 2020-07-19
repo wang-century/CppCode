@@ -1,10 +1,73 @@
 #include <iostream>
 #include <string>
 
+
 using namespace std;
 
 // macro constant
 #define Day 7
+
+void print_helloworld();
+
+// 函数声明
+void define_variable();
+
+void define_macro_constant();
+
+void use_sizeof();
+
+void arithmetic_operation();
+
+void use_do_while();
+
+void find_three_figures_narcissistic_number();
+
+void use_for();
+
+void desk_knock();
+
+void nested_loop();
+
+void print_multiplication_table();
+
+void use_goto();
+
+void use_array();
+
+void bubble_sort();
+
+void double_dimensional_array();
+
+int sum_two_number(int number1, int number2);
+
+
+int main() {
+    // print "hello world!" in command line
+    print_helloworld();
+    define_variable();
+    define_macro_constant();
+    use_sizeof();
+    //input_content();
+    arithmetic_operation();
+    //use_if();
+    //input_3_number_out_max_number();
+    //use_switch();
+    //use_while();
+    use_do_while();
+    find_three_figures_narcissistic_number();
+    use_for();
+    desk_knock();
+    nested_loop();
+    print_multiplication_table();
+    use_goto();
+    use_array();
+    bubble_sort();
+    double_dimensional_array();
+    int sum = sum_two_number(1, 2);
+    cout << sum << endl;
+
+    return 0;
+}
 
 
 // print "hello world!" in command line
@@ -361,62 +424,42 @@ void double_dimensional_array() {
     // fout methods
     int arry1[2][3];    // 1
     int arry2[2][3] = { // 2
-            {1,2,3},
-            {4,5,6}
+            {1, 2, 3},
+            {4, 5, 6}
     };
-    int arry3[2][3]={1,2,3,4,5,6}; // 3
-    int arry4[][3]={1,2,3}; // 4
+    int arry3[2][3] = {1, 2, 3, 4, 5, 6}; // 3
+    int arry4[][3] = {1, 2, 3}; // 4
 
     cout << "double dimensional array use memory:" << sizeof(arry2) << endl;
-    cout << "double dimensional array address:" << (long)arry2 << endl;
+    cout << "double dimensional array address:" << (long) arry2 << endl;
     // there have three students score please save it use array and print it
     /* zhangsan  100  100  100
      * lisi      90   50   100
      * wangwu    60   70   80
      * */
     float students_score[3][3] = {
-            {1100,100,100},
-            {90,50,100},
-            {60,70,80}
+            {100, 100, 100},
+            {90,  50,  100},
+            {60,  70,  80}
     };
+    string names[3] = {"zhangsan", "lisi", "wangwu"};
 
-//    for (int i=0;i<(sizeof(students_score)/sizeof(students_score[0]));i++){
-//        for (int j=0;j<(sizeof(students_score[0])/sizeof(students_score[0][0]));i++){
-//            cout << students_score[j][i] << "\t";
-//        }
-//        cout << endl;
-//    }
-    for (int i=0;i<3;i++){
-        for (int j=0;j<3;j++){
-            cout << students_score[i][j] << "\t";
+    for (int i = 0; i < 3; i++) {
+        float sum_score = 0;
+        for (float j : students_score[i]) {
+            cout << j << "\t";
+            sum_score += j;
         }
-        cout << endl;
+        cout << names[i] << " sum score:" << sum_score << endl;
     }
-
 }
 
-int main() {
-    // print "hello world!" in command line
-    print_helloworld();
-    define_variable();
-    define_macro_constant();
-    use_sizeof();
-    //input_content();
-    arithmetic_operation();
-    //use_if();
-    //input_3_number_out_max_number();
-    //use_switch();
-    //use_while();
-    use_do_while();
-    find_three_figures_narcissistic_number();
-    use_for();
-    desk_knock();
-    nested_loop();
-    print_multiplication_table();
-    use_goto();
-    use_array();
-    bubble_sort();
-    double_dimensional_array();
-    return 0;
+
+
+int sum_two_number(int number1, int number2) {
+    // 返回两数和
+    int sum;
+    sum = number1 + number2;
+    return sum;
 }
 
