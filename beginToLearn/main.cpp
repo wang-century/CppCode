@@ -1,11 +1,28 @@
 #include <iostream>
 #include <string>
-
+#include "include/swap.h"
 
 using namespace std;
 
 // macro constant
 #define Day 7
+
+
+// 结构体的定义  struct 结构体名 {结构体成员列表};
+struct Student {
+    // 成员列表
+    string name;
+    int age;
+    float score;
+}student3;
+
+// 结构体嵌套
+struct Teacher{
+    int id;
+    string name;
+    int age;
+    struct Student stu;
+};
 
 void print_helloworld();
 
@@ -41,6 +58,10 @@ void double_dimensional_array();
 int sum_two_number(int number1, int number2);
 
 
+
+void print_student_info_by_point(Student * point);
+void print_student_info(const Student * stu);
+
 int main() {
     // print "hello world!" in command line
     print_helloworld();
@@ -65,8 +86,78 @@ int main() {
     double_dimensional_array();
     int sum = sum_two_number(1, 2);
     cout << sum << endl;
+    cout << return_max_number(1,2) << endl;
+    use_point();    // 使用指针
+    int a = 1;
+    int b = 2;
+    point_and_function(&a,&b);
+    cout << "a,b的值为：" << a << "\t" << b << endl;
+    // 利用指针对数组进行升序排列
+    int array[] = {4,3,6,9,1,2,10,8,7,5};
+    int len = sizeof(array)/sizeof(array[0]);
+    bubble_sort2(array,len);
+    cout << "冒泡排序结果为：" << endl;
+    for (int i:array){
+        cout << i << " ";
+    }
+    cout << endl;
+
+    // 结构体创建具体学生
+    struct Student student1;
+    student1.name = "章三";
+    student1.age = 20;
+    student1.score = 300;
+    cout << "姓名：" << student1.name << "年龄：" << student1.age << "分数：" << student1.score << endl;
+    struct Student student2 = {
+            "里斯", 20 , 200
+    };
+    cout << "姓名：" << student2.name << "年龄：" << student2.age << "分数：" << student2.score << endl;
+    student3.name = "王五";
+    student3.age = 21;
+    student3.score = 250;
+
+    // 结构体数组
+    Student stuArray[2] = {
+            {"哈哈",20,210},
+            {"嘿嘿",21,220}
+    };
+    // 给结构体数组中元素赋值
+    stuArray[0].name = "年你和";
+    // 遍历结构体数组
+    for (int i=0;i<2;i++){
+        cout << "姓名：" << stuArray[i].name << "年龄：" << stuArray[i].age << "分数：" << stuArray[i].score << endl;
+    }
+
+    // 结构体指针
+    Student student4 = {"萨",20,240};
+    Student *point_student4 = &student4;
+    cout << point_student4->name << "\t" << point_student4->age << "\t" << point_student4->score << endl;
+
+
+    // 结构体嵌套结构体
+    Teacher teacher1 = {1000,"老王",30,student4};
+    cout << "老师姓名：" << teacher1.name << "\t年龄：" << teacher1.age << "\t教导学生：" << teacher1.stu.name << endl;
+
+    // 结构体作函数参数
+    // 1.值传递 2.地址传递
+    print_student_info(&student4);
+    print_student_info_by_point(&student4);
+
+
+
+
 
     return 0;
+}
+
+void print_student_info(const Student * stu){   // 结构体使用const  一旦有修改的操作就会报错，防止误操作
+    // 打印学生信息
+    cout << "姓名：" << stu->name << "年龄：" << stu->age << "分数：" << stu->score << endl;
+}
+
+void print_student_info_by_point(Student * point){
+    // 使用指针打印学生信息
+    cout << point->name << "\t" << point->age << "\t" << point->score << endl;
 }
 
 
