@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "include/swap.h"
+#include "include/basic_extend.h"
 
 using namespace std;
 
@@ -144,11 +144,30 @@ int main() {
     print_student_info_by_point(&student4);
 
 
+    // 内存四区
+    memeory_four_area();
 
+    // 堆
+    int * point_heap_a = use_heap();
+    cout << "堆的数据：" << *point_heap_a << endl;
 
+    // new关键字
+    use_new();
+
+    // 引用
+    use_reference();
+
+    // 函数默认参数
+    cout << "函数默认参数：" << function_default_argument(10,20) << endl;
+
+    // 函数重载
+    function_overloading();
 
     return 0;
 }
+
+
+
 
 void print_student_info(const Student * stu){   // 结构体使用const  一旦有修改的操作就会报错，防止误操作
     // 打印学生信息
