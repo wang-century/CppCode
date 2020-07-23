@@ -2,6 +2,9 @@
 C++ 代码
 <pre>
     - BeginToLearn    
-        - main.cpp  练习代码
+        - main.cpp  基础知识练习代码
     
+    - AddressBookManagementSystem
+        - main.cpp  命令行“通讯录管理系统”项目练习
+        
 </pre>

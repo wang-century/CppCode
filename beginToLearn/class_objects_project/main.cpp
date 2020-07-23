@@ -208,12 +208,12 @@ public:
 /*
  * 静态变量
  */
-class Person3{
+class Person3 {
 public:
     static int age; // 静态成员变量   类内声明
 
     // 静态成员函数
-    static void print_info(){
+    static void print_info() {
         cout << "Person3年龄:" << age << endl;
     }
 
@@ -223,6 +223,146 @@ private:
 
 int Person3::age = 20;  // 静态成员变量 类外初始化
 double Person3::height = 150;
+
+
+/*
+ * this指针
+ */
+class Person4 {
+public:
+    int age;
+
+    Person4(int age) {
+        this->age = age;    // 使用指针区分同名变量
+    }
+
+    Person4 &add_age(Person4 &p) {
+        this->age += p.age;
+        return *this;   // 通过返回实例的引用可以多次调用该函数
+    }
+
+};
+
+
+/*
+ * const修饰成员函数
+ * 常函数与常对象
+ */
+class Person5 {
+public:
+    int age;
+    mutable double height;  // 添加mutable后变量可以在常函数修改
+
+    Person5(int age) {
+        this->age = age;
+    }
+
+    // this指针的本质是指针常量，指针的指向是不可变的
+    // const Person * const this；   在成员函数后加const意义如左侧，让this指针指向的值也不可以修改
+    void show_info() const {
+        // this->age = 20; 此式是不被允许的
+        this->height = 178;
+        cout << "身高为：" << height << endl;
+    }
+};
+
+
+/*
+ * 友元
+ * 目的是让一个函数或者类访问另一个类中的私有成员
+ */
+class Building {
+    friend void visit_building(Building &building); // 全局函数作友元,使其可以访问本类私有成员
+    // 同理，类做友元就是 friend class 类名;
+    // 成员函数做友元就是 friend 返回值类型 类名::成员函数();
+public:
+    string sitting_room = "客厅";
+private:
+    string bed_room = "卧室";
+};
+
+// 全局函数作友元
+void visit_building(Building &building) {
+    cout << "正在访问" << building.bed_room << endl;
+}
+
+
+/*
+ * 运算符重载
+ */
+class CoorDinate {
+    // 坐标类
+public:
+    double x;
+    double y;
+
+    CoorDinate() {
+
+    }
+
+    CoorDinate(double x, double y) {
+        this->x = x;
+        this->y = y;
+    }
+
+    // 成员函数重载+号运算符
+    CoorDinate operator+(CoorDinate &coorDinate) {
+        CoorDinate temp;
+        temp.x = this->x + coorDinate.x;
+        temp.y = this->y + coorDinate.y;
+        return temp;
+    }
+
+};
+
+// 全局函数重载+号运算符
+/*
+CoorDinate operator+ (CoorDinate &coorDinate1,CoorDinate &coorDinate2){
+    CoorDinate temp;
+    temp.x = coorDinate1.x + coorDinate2.x;
+    temp.y = coorDinate1.y + coorDinate2.y;
+    return temp;
+}
+ */
+// 左移运算符重载
+// 不会利用成员函数重载<<左移运算符，因为无法实现cout在左侧
+ostream & operator<<(ostream &out, CoorDinate &coorDinate) {
+    out << "x:" << coorDinate.x << ", y:" << coorDinate.y;
+    return out;
+}
+
+// 递增运算符重载(++):
+// 作用：通过重载递增运算符实现自己的整形数据
+class MyInteger{
+    friend ostream &operator<<(ostream &out, MyInteger my_integer);
+private:
+    int number;
+public:
+    MyInteger(){
+        number = 0;
+    }
+    // 重载前置++运算符
+    MyInteger & operator++(){
+        ++number;
+        return *this;   // 返回引用是为了对同一个对象递增
+    }
+    // 重载后置++运算符
+    // int代表占位参数，用于区分前置和后置递增
+    MyInteger operator++(int){
+        // 先记录当前结果
+        MyInteger temp = *this;
+        // 递增
+        ++number;
+        // 最后将记录结果做返回
+        return temp;    // 返回的是值，因为这里temp是局部变量，返回引用会报错
+    }
+
+};
+// 重载左移运算符
+ostream & operator<<(ostream &out, MyInteger my_integer) {
+    out << my_integer.number;
+    return out;
+}
 
 int main() {
     // 1.设计一个圆类，求圆的周长
@@ -306,6 +446,44 @@ int main() {
     cout << endl;
 
 
+    // this指针
+    cout << "this指针" << endl;
+    Person4 person4_1(10);
+    Person4 person4_2(20);
+    person4_1.add_age(person4_2).add_age(person4_2);    // 调用两次
+    cout << "person4_1的年龄：" << person4_1.age << endl;
+    cout << endl;
+
+    // 常函数与常对象
+    cout << "常函数与常对象" << endl;
+    const Person5 person5_1(10);    // 常对象，只能调用常函数
+    person5_1.show_info();
+    cout << endl;
+
+
+    // 友元
+    cout << "友元" << endl;
+    Building building;
+    visit_building(building);
+    cout << endl;
+
+    // 运算符重载
+    cout << "运算符重载" << endl;
+    CoorDinate coorDinate1(0, 30);
+    CoorDinate coorDinate2(10, 20);
+    // 坐标系相加
+    // 通过成员函数重载+号 与 通过全局函数重载+号 二选一
+    CoorDinate coorDinate3 = coorDinate1 + coorDinate2;
+    cout << "坐标3的值为: x:" << coorDinate3.x << ",y:" << coorDinate3.y << endl;
+    // 左移运算符重载
+    cout << coorDinate1 << endl;
+    // 递增运算符重载
+    MyInteger myint;
+    cout << myint << endl;
+    cout << ++myint << endl;
+    cout << myint++ << endl;
+    cout << myint << endl;
+    cout << endl;
 
     return 0;
 }
