@@ -326,29 +326,32 @@ CoorDinate operator+ (CoorDinate &coorDinate1,CoorDinate &coorDinate2){
  */
 // 左移运算符重载
 // 不会利用成员函数重载<<左移运算符，因为无法实现cout在左侧
-ostream & operator<<(ostream &out, CoorDinate &coorDinate) {
+ostream &operator<<(ostream &out, CoorDinate &coorDinate) {
     out << "x:" << coorDinate.x << ", y:" << coorDinate.y;
     return out;
 }
 
 // 递增运算符重载(++):
 // 作用：通过重载递增运算符实现自己的整形数据
-class MyInteger{
+class MyInteger {
     friend ostream &operator<<(ostream &out, MyInteger my_integer);
+
 private:
     int number;
 public:
-    MyInteger(){
+    MyInteger() {
         number = 0;
     }
+
     // 重载前置++运算符
-    MyInteger & operator++(){
+    MyInteger &operator++() {
         ++number;
         return *this;   // 返回引用是为了对同一个对象递增
     }
+
     // 重载后置++运算符
     // int代表占位参数，用于区分前置和后置递增
-    MyInteger operator++(int){
+    MyInteger operator++(int) {
         // 先记录当前结果
         MyInteger temp = *this;
         // 递增
@@ -358,11 +361,77 @@ public:
     }
 
 };
+
 // 重载左移运算符
-ostream & operator<<(ostream &out, MyInteger my_integer) {
+ostream &operator<<(ostream &out, MyInteger my_integer) {
     out << my_integer.number;
     return out;
 }
+
+// 重载赋值运算符
+class Person6 {
+public:
+    string *name;
+    int *age;
+
+    Person6(string name, int age) {
+        this->age = new int(age);
+        this->name = new string(name);
+    }
+
+    ~Person6() {
+        if (age != NULL) {
+            delete age;
+            age = NULL;
+        }
+    }
+
+    // 重载赋值运算符
+    Person6 &operator=(Person6 &p) {
+        // 先判断是否有属性在堆区，若有先释放再深拷贝
+        if (age != NULL) {
+            delete age;
+            age = NULL;
+        }
+        if (name != NULL) {
+            delete name;
+            name = NULL;
+        }
+        // 深拷贝
+        age = new int(*p.age);
+        name = new string(*p.name);
+        return *this;
+    }
+
+    // 重载 == 号
+    bool operator==(Person6 &p) {
+        if (*this->name == *p.name && *this->age == *p.age) {
+            return true;
+        }
+        return false;
+    }
+    // 重载 != 号
+    bool operator!=(Person6 &p) {
+        if (*this->name == *p.name && *this->age == *p.age) {
+            return false;
+        }
+        return true;
+    }
+};
+
+// 函数调用运算符重载(())
+class MyAdd{
+public:
+    int operator()(int num1,int num2){
+        return num1+num2;
+    }
+};
+
+// 继承
+#include "head/Inheritance.h"
+
+// 多态
+#include "head/polymorphism.h"
 
 int main() {
     // 1.设计一个圆类，求圆的周长
@@ -483,7 +552,50 @@ int main() {
     cout << ++myint << endl;
     cout << myint++ << endl;
     cout << myint << endl;
+
+    // 重载赋值运算符
+    Person6 person6_1("章三", 18);
+    Person6 person6_2("里斯", 20);
+    Person6 person6_3("王五", 21);
+    person6_1 = person6_2 = person6_3;  // 赋值操作
+    cout << *person6_1.name << "的年龄为：" << *person6_1.age << endl;
+    cout << *person6_2.name << "的年龄为：" << *person6_2.age << endl;
+    cout << *person6_3.name << "的年龄为：" << *person6_3.age << endl;
+    // 重载关系运算符
+    Person6 person6_4("散文", 26);
+    Person6 person6_5("散", 26);
+    if (person6_4 == person6_5) {
+        cout << "person6_4与person6_5是相等的" << endl;
+    }else{
+        cout << "person6_4与person6_5是不相等的" << endl;
+    }
+    if (person6_4 != person6_5) {
+        cout << "person6_4与person6_5是不相等的" << endl;
+    }else{
+        cout << "person6_4与person6_5是相等的" << endl;
+    }
+    // 函数调用运算符重载(())
+    MyAdd myAdd;
+    int result = myAdd(100,200);
+    cout << "result的结果为：" << result << endl;
+    // 匿名对象
+    cout << "result的结果为：" << MyAdd()(100,100) << endl;
     cout << endl;
 
+    // 继承
+    use_inheritance1();
+
+    // 继承同名成员处理方式
+    use_inheritance2();
+
+    // 菱形继承
+    use_inheritance3();
+
+    // 多态
+    use_polymorphism1();
+    // 继承实现计算器
+    use_polymorphism2();
+    // 制作饮品
+    use_polymorphism3();
     return 0;
 }

@@ -23,4 +23,4 @@ add_executable(struct_project
 project(class_objects_project)
 
 add_executable(class_objects_project
-        class_objects_project/main.cpp class_objects_project/head/point.h class_objects_project/point.cpp)
+        class_objects_project/main.cpp class_objects_project/head/point.h class_objects_project/point.cpp class_objects_project/Inheritance.cpp class_objects_project/head/Inheritance.h class_objects_project/polymorphism.cpp class_objects_project/head/polymorphism.h)
