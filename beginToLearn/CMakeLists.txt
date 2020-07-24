@@ -24,3 +24,9 @@ project(class_objects_project)
 
 add_executable(class_objects_project
         class_objects_project/main.cpp class_objects_project/head/point.h class_objects_project/point.cpp class_objects_project/Inheritance.cpp class_objects_project/head/Inheritance.h class_objects_project/polymorphism.cpp class_objects_project/head/polymorphism.h)
+
+# 文件操作练习项目
+project(file_operation)
+
+add_executable(file_operation
+        file_operation/main.cpp)

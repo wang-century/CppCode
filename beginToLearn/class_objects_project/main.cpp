@@ -597,5 +597,8 @@ int main() {
     use_polymorphism2();
     // 制作饮品
     use_polymorphism3();
+
+    // 组装电脑
+    use_polymorphism4();
     return 0;
 }

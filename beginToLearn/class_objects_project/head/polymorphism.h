@@ -10,3 +10,4 @@
 void use_polymorphism1();
 void use_polymorphism2();
 void use_polymorphism3();
+void use_polymorphism4();

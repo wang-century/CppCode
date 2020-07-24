@@ -98,9 +98,15 @@ public:
         pour_into_cup();
         add_ingredients();
     }
-    // 纯虚析构
+    // 虚析构
+    /*
+    virtual ~MakeDrinks(){
+        cout << "MakeDrinks纯析构函数调用" << endl;
+    }*/
+    // 纯虚析构 需要声明也需要实现
     virtual ~MakeDrinks()=0;
 };
+
 // 制作咖啡
 class MakeCoffee: public MakeDrinks{
     void heat_water(){
@@ -115,6 +121,7 @@ class MakeCoffee: public MakeDrinks{
     void add_ingredients(){
         cout << "加糖和牛奶" << endl;
     }
+
 };
 // 冲茶叶
 class MakeTea: public MakeDrinks{
@@ -136,9 +143,109 @@ void do_make_drinks(MakeDrinks *makeDrinks){
     makeDrinks->make_drinks();
     delete makeDrinks;
 }
+// 纯虚析构
+MakeDrinks::~MakeDrinks(){
+    cout << "MakeDrinks纯虚析构函数调用" << endl;
+};
 
+/*
+ * 电脑组装
+            描述：电脑主要组成部件为CPU、显卡、内存条
+                将每个零件封装出抽象类，并且提供不同的厂商生产不同的零件，例如Intel厂商和Lenove厂商
+                创建电脑类提供让电脑工作的函数，并且调用每个零件工作的接口
+                测试时组装三台不同的电脑进行工作
+ */
+// 抽象CPU类
+class CPU{
+public:
+    virtual void calculate() = 0;   // 纯虚函数
+};
+// 抽象显卡类
+class GPU{
+public:
+    virtual void display() = 0;
+};
+// 抽象内存条类
+class MemoryBank{
+public:
+    virtual void storage() = 0;
+};
+// 设计两个厂商的相关产品
+class IntelCPU: public CPU{
+public:
+    void calculate() override{
+        cout << "Intel CPU正在计算" << endl;
+    }
+};
+class LenovoCPU: public CPU{
+public:
+    void calculate() override{
+        cout << "Lenovo CPU正在计算" << endl;
+    }
+};
+class IntelGPU: public GPU{
+public:
+    void display() override{
+        cout << "Intel GPU正在计算画面" << endl;
+    }
+};
+class LenovoGPU: public GPU{
+public:
+    void display() override{
+        cout << "Lenovo GPU正在计算画面" << endl;
+    }
+};
+class IntelMemoryBank: public MemoryBank{
+public:
+    void storage() override{
+        cout << "Intel 内存条正在存储" << endl;
+    }
+};
+class LenovoMemoryBank: public MemoryBank{
+public:
+    void storage() override{
+        cout << "Lenovo 内存条正在存储" << endl;
+    }
+};
+// 设计电脑类
 
+class Computer{
+public:
+    CPU *cpu;
+    GPU *gpu;
+    MemoryBank *memoryBank;
 
+    // 构造函数，传入三个零件的指针
+    Computer(CPU *cpu,GPU *gpu,MemoryBank *memoryBank){
+        this->cpu = cpu;
+        this->gpu = gpu;
+        this->memoryBank = memoryBank;
+    }
+
+    // 工作函数
+    void work(){
+        cpu->calculate();
+        gpu->display();
+        memoryBank->storage();
+    }
+
+    // 释放电脑零件
+    ~Computer(){
+        if(cpu!=NULL){
+            delete cpu;
+            cpu = NULL;
+        }
+        if(gpu!=NULL){
+            delete gpu;
+            gpu = NULL;
+        }
+        if(memoryBank!=NULL){
+            delete cpu;
+            memoryBank = NULL;
+        }
+    }
+
+};
 
 void use_polymorphism1(){
     cout << "\n\t动态多态" << endl;
@@ -181,5 +288,33 @@ void use_polymorphism3(){
     do_make_drinks(makeDrinks);
     makeDrinks = new MakeTea;
     do_make_drinks(makeDrinks);
+    cout << endl;
+}
+
+void use_polymorphism4(){
+    // 电脑组装
+    cout << "\n\t电脑组装" << endl;
+    // 创建第一台电脑零件
+    CPU * intel_cpu = new IntelCPU;
+    GPU * intel_gpu = new IntelGPU;
+    MemoryBank * intel_memory_bank = new IntelMemoryBank;
+    // 创建第一台电脑
+    Computer * computer1 = new Computer(intel_cpu,intel_gpu,intel_memory_bank);
+    cout << "第一台电脑开始工作" << endl;
+    computer1->work();
+    cout << "第一台电脑停止工作" << endl;
+    delete computer1;
+    // 创建第二台电脑
+    Computer * computer2 = new Computer(new LenovoCPU,new LenovoGPU,new LenovoMemoryBank);
+    cout << "第二台电脑开始工作" << endl;
+    computer2->work();
+    cout << "第二台电脑停止工作" << endl;
+    delete computer2;
+    // 创建第三台电脑
+    Computer * computer3 = new Computer(new LenovoCPU,new IntelGPU,new LenovoMemoryBank);
+    cout << "第三台电脑开始工作" << endl;
+    computer3->work();
+    cout << "第三台电脑停止工作" << endl;
+    delete computer3;
     cout << endl;
 }
