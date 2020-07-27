@@ -30,3 +30,9 @@ project(file_operation)
 
 add_executable(file_operation
         file_operation/main.cpp)
+
+# C++提高练习项目
+project(advance_project)
+
+add_executable(advance_project
+        advance_project/main.cpp advance_project/main.cpp)
