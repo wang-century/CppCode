@@ -35,4 +35,11 @@ add_executable(file_operation
 project(advance_project)
 
 add_executable(advance_project
-        advance_project/main.cpp advance_project/main.cpp)
+        advance_project/main.cpp advance_project/main.cpp advance_project/source/woman.cpp advance_project/header/woman.h advance_project/header/man.hpp advance_project/header/class_template_and_friend.hpp advance_project/header/MyArray.hpp)
+
+# STL练习项目
+project(stl_project)
+
+add_executable(stl_project
+
+        stl_project/main.cpp)
