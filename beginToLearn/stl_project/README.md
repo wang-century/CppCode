@@ -57,7 +57,6 @@
 <h4>vector容器嵌套容器</h4>
 
 <h4>string基本概念</h4>
-<h5>string基本概念</h5>
     本质:
         ●string是C++风格的字符串，而string本质上是一个类
     string和char *区别:
@@ -98,4 +97,135 @@
     ●string& append(const string &s);                   //同operator+=(const string& str)
     ●string& append(const string &s， int pos, int n);   //字符串s中从pos开始的n个字符连接到字符串结尾
 
+<h5>string查找和替换</h5>
+    功能描述:
+        ●查找:查找指定字符串是否存在
+        ●替换:在指定的位置替换字符串
+    函数原型:
+    ●int find(const string& str, int pos=0) const;        //查找str第一次出现位置,从pos开始查找
+    ●int find(const char* s,int pos=0) const;             //查找s第一次出现位置从pos开始查找
+    ●int find(const char* s，int pos, int n) const;          //从pos位置查找s的前n个字符第一次位置
+    ●int find(const char c,int pos = 0) const;              //查找字符c第一次出现位置
+    ●int rfind(const string& str, int pos = npos) const;    //查找str最后一次位置,从pos开始查找
+    ●int rfind(const char* s, int pos = npos) const;        //查找s最后- -次出现位置，从pos开始查找
+    ●int rfind(const char* s, int pos, int n) const;        //从pos查找s的前n个字符最后一-次位置
+    ●int rfind(const char c, int pos =0) const;             //查找字符c最后一次出现位置
+    ●string& replace(int pos, int n, const string& str);    //替换从pos开始n个字符为字符串str
+    ●string& replace(int pos， int n,const char* s);         //替换从pos开始的n个字符为字符串s
+
+
+<h5>string字符串比较</h5>
+    功能描述:
+        ●字符串之间的比较
+    比较方式:
+        ●字符串比较是按字符的ASCII码进行对比
+        =返回0
+        >返回1
+        &lt;返回-1
+    函数原型:
+    ●int compare(const string &s) const;   //与字符串s比较
+    ●int compare(const char *S) const;      //与字符串s比较
+
+<h5>string字符存取</h5>
+    string中单个字符存取方式有两种
+        ●char& operator[](int n);   //通过[方式取字符
+        ●char& at(int n);           //通过at方法获取字符
+
+
+<h5>string插入和删除</h5>
+    功能描述:
+        ●对string字符串进行插入和删除字符操作
+    函数原型:
+        ●string& insert(int pos, const char* s);    //插入字符串
+        ●string& insert(int pos，const string& str);//插入字符串
+        ●string& insert(int pos, int n,char C);     //在指定位置插入n个字符C
+        ●string& erase(int pos, int n = npos);      //删除从Pos开始的n个字符
+
+
+<h5>string子串</h5>
+    功能描述:
+        从字符串中获取想要的子串
+    函数原型:
+        string substr(int pos =0, int n = npos) const; //返回由pos开始的n个字符组成的字符串
+
+
+<h4>vector容器</h4>
+<h5>vector基本概念</h5>
+    功能:
+    ●vector数据结构和数组非常相似，也称为单端数组
+    
+    vector与普通数组区别:
+    ●不同之处在于数组是静态空间，而vector可以动态扩展
+    
+    动态扩展:
+    ●并不是在原空间之后续接新空间，而是找更大的内存空间，然后将原数据拷贝新空间，释放原空间
+    ●vector容器的迭代器是支持随机访问的迭代器
+    
+<h5>vector构造函数</h5>
+    功能描述:
+        创建vector容器
+    函数原型:
+    vector&lt;T> v;                  //采用模板实现类实现，默认构造函数
+    vector(v.begin()，v.end());      //将v[begin(), end()]区间中的元素拷贝给本身
+    vector(n, elem);                //构造函数将n个elem拷贝给本身
+    vector(const vector &vec);      //拷贝构造函数。
+
+<h5>vector赋值操作</h5>
+    功能描述: 
+        ●给vector容器进行赋值
+
+    函数原型:
+        ●vector& operator=(const vector &vec);  //重载等号操作符
+        ●assign(beg，end);                       //将[beg, end)]区间中的数据拷贝赋值给本身。
+        ●assign(n, elem);                       //将n个elem拷贝赋值给本身。
+
+<h5>vector容量和大小</h5>
+    功能描述:
+        ●对vector容器的容量和大小操作
+    函数原型:
+        ●empty();           //判断容器是否为空
+        ●capacity();        //容器的容量
+        ●size();            //返回容器中元素的个数
+        ●resize(int num);，  //重新指定容器的长度为num,若容器变长,则以默认值填充新位置。
+                             //如果容器变短，则末尾超出容器长度的元素被删除。
+        ●resize(int num, elem);   //重新指定容器的长度为num,若容器变长，则以elem值填充新位置。
+                                    //如果容器变短，则末尾超出容器长度的元素被删除
+
+<h5>vector插入和删除</h5>
+    功能描述: 
+        ●对vector容器进行插入、 删除操作
+    函数原型:
+        push_back(ele);     //尾部插入元素ele
+        ●pop_back();        //删除最后-个元素
+        ●insert(const_iterator pos, ele);   //迭代器指向位置pos插入元素ele
+        ●insert(const_iterator pos, int count ,ele); //迭代器指向位置pos插入count个元素ele
+        ●erase(const_iterator pos);    //删除迭代器指向的元素
+        ●erase(const_iterator start, const_iterator end); //删除迭代器从start到end之间的元素
+        ●clear();   //删除容器中所有元素
+
+
+<h5>vector数据存取</h5>
+    功能描述: 
+        ●对vector中的数据的存取操作
+    函数原型:
+        ●at(int idx);   //返回索引idx所指的数据
+        ●operator[];    //返回索引所指的数据
+        ●front();       //返回容器中第一个数据元素
+        ●back();        //返回容器中最后一个数据元素
+
+
+<h5>vector互换容器</h5>
+    功能描述: 
+        ●实现两个容器内元素互换
+    函数原型:
+        swap(vec);  // 将vec与本身的元素互换  
+        
+        
+<h5>vector预留空间</h5>
+    功能描述: .
+        ●减少vector在动态扩 展容量时的扩展次数
+
+    函数原型:
+        reserve(int len); //容器预留len个元素长度,预留位置不初始化，元素不可访问。
+  
 </pre>
