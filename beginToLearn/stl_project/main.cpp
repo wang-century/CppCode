@@ -839,9 +839,244 @@ public:
     }
 
     void print_info(){
-        cout << "姓名：" << this->name << " 年龄：" << this->age << " 身高(m)：" << this->height << endl;
+        cout << "姓名：" << this->name << " 年龄：" << this->age << " 身高(cm)：" << this->height << endl;
     }
 };
+// print list content
+void print_list_info(const list<Human>lst){
+    for(list<Human>::const_iterator it=lst.begin();it!=lst.end();it++){
+        cout << "Name:" << it->name << "\tAge:" << it->age << "\tHeight:" << it->height << endl;
+    }
+}
+bool compare_human(Human &human1,Human &human2){
+    // 按照年龄进行升序，如果年龄相同按照身高进行排序
+    if(human1.age==human2.age){
+        return human1.height > human2.height;
+    }
+    return human1.age < human2.age;
+
+}
+
+void sort_case(){
+    list<Human>human_list;
+    Human human1("John",20,180);
+    Human human2("Lucy",19,166);
+    Human human3("Tom",21,180);
+    Human human4("Jack",20,181);
+    // push into human_list
+    human_list.push_back(human1);
+    human_list.push_back(human2);
+    human_list.push_back(human3);
+    human_list.push_back(human4);
+    print_list_info(human_list);
+    // 按照年龄进行升序，如果年龄相同按照身高进行排序
+    human_list.sort(compare_human);
+    cout << "Sort result:\n";
+    print_list_info(human_list);
+}
+
+
+
+#include <set>
+void print_info(const set<int>set1){
+    for(int it : set1){
+        cout << it << " ";
+    }
+    cout << endl;
+}
+void use_set_1(){
+    /* set构造和赋值 */
+    set<int>set_1;
+    // only use insert
+    set_1.insert(20);
+    set_1.insert(10);
+    set_1.insert(30);
+    set_1.insert(5);
+    // print content
+    print_info(set_1);
+    // copy construction
+    set<int>set_2(set_1);
+    print_info(set_2);
+    set<int>set_3 = set_1;
+    print_info(set_3);
+}
+
+void use_set_2(){
+    /* set大小和交换 */
+    set<int>set_1;
+    // insert value
+    set_1.insert(20);
+    set_1.insert(10);
+    set_1.insert(30);
+    set_1.insert(5);
+    print_info(set_1);
+    // determine empty
+    if(set_1.empty()){
+        cout << "Set is empty!" << endl;
+    }else{
+        cout << "Set size is:" << set_1.size() << endl;
+    }
+    // create set_2
+    set<int>set_2;
+    set_2.insert(101);
+    set_2.insert(102);
+    set_2.insert(103);
+    // swap set_1 and set_2
+    cout << "Exchange before:\n";
+    print_info(set_1);
+    print_info(set_2);
+    set_1.swap(set_2);
+    cout << "After exchange :\n";
+    print_info(set_1);
+    print_info(set_2);
+}
+void use_set_3() {
+    /* set插入和删除 */
+    set<int>set_1;
+    // insert value
+    set_1.insert(20);
+    set_1.insert(10);
+    set_1.insert(30);
+    set_1.insert(5);
+    print_info(set_1);  // print
+    // delete value
+    set_1.erase(set_1.begin()); // delete first value
+    set_1.erase(20);    // delete specified value
+    print_info(set_1);
+    // clear set
+    set_1.erase(set_1.begin(),set_1.end()); // first method
+    set_1.clear();  // second method
+}
+
+void use_set_4(){
+    /* set查找和统计 */
+    set<int>set_1;
+    // insert value
+    set_1.insert(20);
+    set_1.insert(10);
+    set_1.insert(30);
+    set_1.insert(5);
+    print_info(set_1);  // print
+    // find value
+    set<int>::iterator pos = set_1.find(30);
+    if(pos!=set_1.end()){
+        cout << "Found the value:" << *pos << endl;
+    }else{
+        cout << "Not found the value." << endl;
+    }
+    // statistics
+    int num = set_1.count(30);  // count 30
+    cout << "30 time:" << num << endl;
+}
+void print_info(multiset<int>multi){
+    for(int it:multi){
+        cout << it << " ";
+    }
+    cout << endl;
+}
+
+void set_multiset_different(){
+    /* set和multiset区别 */
+    set<int>set_1;
+    // insert value
+    pair<set<int>::iterator,bool> insert_result = set_1.insert(20); // insert value and return insert result to insert_result
+    if(insert_result.second){
+        cout << "Insert 20 successful!" << endl;
+    }else{
+        cout << "Insert 20 failed!" << endl;
+    }
+    insert_result = set_1.insert(20); // insert value and return insert result to insert_result
+    if(insert_result.second){
+        cout << "Insert 20 successful!" << endl;
+    }else{
+        cout << "Insert 20 failed!" << endl;
+    }
+    set_1.insert(10);
+    set_1.insert(30);
+    multiset<int>set_2;
+    // insert value
+    set_2.insert(20);
+    set_2.insert(20);
+    set_2.insert(10);
+    set_2.insert(30);
+    cout << "set insert result:";
+    print_info(set_1);
+    cout << "multiset insert result:";
+    print_info(set_2);
+}
+
+
+class MyCompare{
+public:
+    bool operator()(int v1,int v2){
+        return v1 > v2;
+    }
+};
+
+class Sheep{
+public:
+    int age;
+    string name;
+
+    Sheep(string name,int age){
+        this->name = name;
+        this->age = age;
+    }
+};
+class CompareSheep{
+public:
+    bool operator()(const Sheep&sheep1,const Sheep&sheep2){
+        return sheep1.age > sheep2.age;
+    }
+};
+
+void use_set_sort(){
+    /* set容器排序 */
+    // 指定内置数据类型排序规则
+    set<int,MyCompare>set_1;
+    // insert value
+    set_1.insert(20);
+    set_1.insert(10);
+    set_1.insert(30);
+    set_1.insert(5);
+    // print
+    for(int it : set_1){
+        cout << it << " ";
+    }
+    cout << endl;
+
+    // 指定自定义数据类型排序规则
+    set<Sheep,CompareSheep>set_2;
+    // create sheep
+    Sheep s1("Lily",10);
+    Sheep s2("Lucy",6);
+    Sheep s3("Tom",3);
+    Sheep s4("Jake",12);
+    // insert into set
+    set_2.insert(s1);
+    set_2.insert(s2);
+    set_2.insert(s3);
+    set_2.insert(s4);
+    // print
+    for(const Sheep& it : set_2){
+        cout << "Sheep\tName:" << it.name << "\tAge:"<< it.age << endl;
+    }
+
+
+}
+
+
+
+void use_pair(){
+    /* pair对组创建 */
+    // first method
+    pair<string,int> p1(string("Tom"),20);
+    cout << "Name:" << p1.first << "\tAge:" << p1.second << endl;
+    // second method
+    pair<string,int>p2 = make_pair("Jarry",16);
+    cout << "Name:" << p2.first << "\tAge:" << p2.second << endl;
+}
+
 
 int main() {
     cout << "\tvector存放内置数据类型:" << endl;
@@ -905,5 +1140,20 @@ int main() {
     use_list_4();   // list插入和删除
     use_list_5();   // list数据存取
     use_list_6();   // list反转和排序
+    sort_case();    // 排序案例
+    cout << "\tset构造和赋值:" << endl;
+    use_set_1();    // set构造和赋值
+    cout << "\tset大小和交换:" << endl;
+    use_set_2();    // set大小和交换
+    cout << "\tset插入和删除:" << endl;
+    use_set_3();    // set插入和删除
+    cout << "\tset查找和统计:" << endl;
+    use_set_4();    // set查找和统计
+    cout << "\tset和multiset区别:" << endl;
+    set_multiset_different();   // set和multiset区别
+    cout << "\tpair对组创建:" << endl;
+    use_pair(); // pair对组创建
+    cout << "\tset容器排序:" << endl;
+    use_set_sort(); // set容器排序
     return 0;
 }
