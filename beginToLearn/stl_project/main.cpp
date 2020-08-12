@@ -857,6 +857,8 @@ bool compare_human(Human &human1,Human &human2){
 
 }
 
+
+
 void sort_case(){
     list<Human>human_list;
     Human human1("John",20,180);
@@ -1078,6 +1080,201 @@ void use_pair(){
 }
 
 
+
+#include <map>
+void print_info(map<int,string>&mp){
+    for(map<int,string>::iterator it=mp.begin();it!=mp.end();it++){
+        cout << "map   id:" << (*it).first << "\tname:" << (*it).second << endl;
+    }
+    cout << endl;
+}
+void use_map_1(){
+    /* map构造和赋值 */
+    map<int,string>mp;  // create map
+    mp.insert(pair<int,string>(1,"Jake"));  // insert key,value
+    mp.insert(pair<int,string>(3,"Lucy"));
+    mp.insert(pair<int,string>(2,"Tom"));
+    print_info(mp); // print
+
+    // copy construct
+    map<int,string>mp2(mp);
+    print_info(mp2);
+
+    // "=" assignment
+    map<int,string>mp3 = mp;
+    print_info(mp3);
+
+}
+void use_map_2(){
+    /* map大小和交换 */
+    map<int,string>mp;  // create map
+    mp.insert(pair<int,string>(1,"Jake"));  // insert key,value
+    mp.insert(pair<int,string>(3,"Lucy"));
+    mp.insert(pair<int,string>(2,"Tom"));
+    print_info(mp); // print
+    if(!mp.empty()){
+        cout << "map is not empty." << " map size:" << mp.size() << endl;
+    }else{
+        cout << "map is empty." << endl;
+    }
+    // swap
+    map<int,string>mp2;
+    mp2.insert(pair<int,string>(4,"LULU"));
+    mp2.insert(pair<int,string>(5,"TIMO"));
+    cout << "swap before:" << endl;
+    cout << "mp:" << endl;
+    print_info(mp);
+    cout << "mp2:" << endl;
+    print_info(mp2);
+    // swap mp and mp2
+    mp.swap(mp2);
+    cout << "after swap:" << endl;
+    cout << "mp:" << endl;
+    print_info(mp);
+    cout << "mp2:" << endl;
+    print_info(mp2);
+}
+void use_map_3(){
+    /* map插入和删除 */
+    map<int,string>mp;  // create map
+    // insert methods
+    mp.insert(pair<int,string>(1,"Jake"));  // method 1
+    mp.insert(make_pair(2,"Tom"));  // method 2
+    mp.insert(map<int,string>::value_type(3,"Lucy"));   // method 3
+    mp[4] = "Lily"; // method 4
+
+    print_info(mp); // print
+
+    // delete element
+    mp.erase(mp.begin());   // delete first element
+    print_info(mp);
+
+    mp.erase(3);    // delete element by key
+    print_info(mp);
+
+    mp.erase(mp.begin(),mp.end());  // clear map
+    mp.clear();     // clear map
+}
+void use_map_4(){
+    /* map查找和统计 */
+    map<int,string>mp;  // create map
+    // insert methods
+    mp.insert(pair<int,string>(1,"Jake"));  // method 1
+    mp.insert(make_pair(2,"Tom"));  // method 2
+    mp.insert(map<int,string>::value_type(3,"Lucy"));   // method 3
+    mp[4] = "Lily"; // method 4
+
+    // find element
+    map<int,string>::iterator pos = mp.find(3);
+    if(pos!=mp.end()){
+        cout << "Found key:3" << endl;
+    }else{
+        cout << "Not Fount key:3" << endl;
+    }
+    // count element
+    int num = mp.count(3);  // count key=3 element
+    cout << "key=3 element count:" << num << endl;
+}
+class CompareMap{
+public:
+    bool operator()(int v1,int v2){
+        return v1>v2;   // from largest to smallest
+    }
+};
+void use_map_5(){
+    /* map容器排序 */
+    map<int,string,CompareMap>mp;  // create map
+    // insert methods
+    mp.insert(pair<int,string>(1,"Jake"));  // insert key,value
+    mp.insert(pair<int,string>(3,"Lucy"));
+    mp.insert(pair<int,string>(2,"Tom"));
+    for(map<int,string,CompareMap>::iterator it=mp.begin();it!=mp.end();it++){
+        cout << (*it).first << " " << (*it).second << endl;
+    }
+}
+
+/*
+ * 案例-员工分组</h5>
+    案例描述
+        ·公司今天招聘了10个员工(ABCDEFGHI)，10名员工进入公司之后，需要指派员工在那个部门工作
+        ·员工信息有:姓名工资组成;部门分为:策划、美术、研发
+        ·随机给10名员工分配部门和工资
+        ·通过multimap进行信息的插入key(部门编号) value(员工)
+        ·分部门显示员工信息
+    实现步骤
+        1.创建10名员工，放到vector中
+        2.遍历vector容器，取出每个员工，进行随机分组
+        3.分组后，将员工部门编号作为key，具体员工作为value，放入到multimap容器中
+        4.分部门显示员工信息
+ */
+class Employee{
+public:
+    string name;
+    double salary;
+
+    Employee(string name, double salary){
+        this->name = name;
+        this->salary = salary;
+    }
+};
+void create_employee(vector<Employee>&vec){
+    /* 创建10名员工，放到vector中 */
+    string employee_name = "ABCDEFGHIJ";
+    double salary_array[] = {2000,3000,4000,5000};
+    for(int i=0;i<10;i++){
+        string name = "员工";
+        name+=employee_name[i];
+        double salary = salary_array[rand()%4];
+        vec.push_back(Employee(name,salary));
+    }
+}
+void set_group(vector<Employee>&vec,multimap<int,Employee>&mutmap){
+    /* 遍历vector容器，取出每个员工，进行随机分组 */
+    for(vector<Employee>::iterator it=vec.begin();it!=vec.end();it++){
+        // 分组后，将员工部门编号作为key，具体员工作为value，放入到multimap容器中
+        int department_id = rand() % 3+1; // 1.策划、2.美术、3.研发
+        mutmap.insert(make_pair(department_id,(*it)));
+    }
+}
+void print_employee_by_group(multimap<int,Employee>&mutmap){
+    /* 分部门显示员工信息 */
+    cout << "策划:" << endl;
+    multimap<int,Employee>::iterator pos = mutmap.find(1);
+    int count = mutmap.count(1);
+    int index = 0;
+    for(;pos!=mutmap.end() && index<count;pos++,index++){
+        cout << "Name:" << pos->second.name << " Salary:" << pos->second.salary << endl;
+    }
+    cout << "美术:" << endl;
+    pos = mutmap.find(2);
+    count = mutmap.count(2);
+    index = 0;
+    for(;pos!=mutmap.end() && index<count;pos++,index++){
+        cout << "Name:" << pos->second.name << " Salary:" << pos->second.salary << endl;
+    }
+    cout << "研发:" << endl;
+    pos = mutmap.find(3);
+    count = mutmap.count(3);
+    index = 0;
+    for(;pos!=mutmap.end() && index<count;pos++,index++){
+        cout << "Name:" << pos->second.name << " Salary:" << pos->second.salary << endl;
+    }
+
+
+}
+void case_2(){
+    /* 案例-员工分组 */
+    // 创建10名员工，放到vector中
+    vector<Employee>vector_employee;
+    create_employee(vector_employee);
+    // 遍历vector容器，取出每个员工，进行随机分组
+    multimap<int,Employee>employee_map;
+    set_group(vector_employee,employee_map);
+    // 分部门显示员工信息
+    print_employee_by_group(employee_map);
+}
+
+
 int main() {
     cout << "\tvector存放内置数据类型:" << endl;
     use_vector_1(); // vector存放内置数据类型
@@ -1155,5 +1352,18 @@ int main() {
     use_pair(); // pair对组创建
     cout << "\tset容器排序:" << endl;
     use_set_sort(); // set容器排序
+
+    cout << "\tmap构造和赋值:" << endl;
+    use_map_1();    // map构造和赋值
+    cout << "\tmap大小和交换:" << endl;
+    use_map_2();    // map大小和交换
+    cout << "\tmap插入和删除:" << endl;
+    use_map_3();    // map插入和删除
+    cout << "\tmap查找和统计:" << endl;
+    use_map_4();    // map查找和统计
+    cout << "\tmap容器排序:" << endl;
+    use_map_5();    // map容器排序
+    cout << "\t案例-员工分组:" << endl;
+    case_2();   // 案例-员工分组
     return 0;
 }
