@@ -48,6 +48,14 @@ public:
         this->age = age;
         this->name = name;
     }
+
+    bool operator==(const Person &p){
+        if(this->name==p.name&&this->age==p.age){
+            return true;
+        }else{
+            return false;
+        }
+    }
 };
 
 /* vector存放自定义数据类型 Person */
@@ -1275,6 +1283,252 @@ void case_2(){
 }
 
 
+class MyAdd{
+public:
+    int operator()(int v1,int v2){
+        return v1+v2;
+    }
+};
+class MyPrint{
+public:
+    int count;  // 自己的状态
+
+    MyPrint(){
+        this->count = 0;
+    }
+
+
+    void operator()(string str){
+        cout << str << endl;
+        this->count++;
+    }
+};
+void do_print(MyPrint &mp,string str){
+    mp(str);
+}
+void use_function_objet_1(){
+    /* 函数对象使用 */
+    // 1、函数对象在使用时，可以像普通函数那样调用，可以有参数，可以有返回值
+    MyAdd my_add;
+    cout << my_add(10,20) << endl;
+    // 2、函数对象超出普通函数的概念，函数对象可以有自己的状态
+    MyPrint my_print;
+    my_print("hello world!");
+    cout << "my_print use times:" << my_print.count << endl;
+    // 3、函数对象可以作为参数传递
+    do_print(my_print,"Hi");
+}
+
+class GreaterFive{
+public:
+    bool operator()(int v1){
+        return v1>5;
+    }
+};
+
+class SortMaxToMin{
+public:
+    bool operator()(int v1,int v2){
+        return v1>v2;
+    }
+};
+void use_sentential_function_1(){
+    /* 谓词 */
+    // 一元谓词
+    vector<int>v;
+    for(int i=0;i<10;i++){
+        v.push_back(i);
+    }
+    // find numbers which greater than 5
+    vector<int>::iterator it = find_if(v.begin(),v.end(),GreaterFive());
+    if(it==v.end()){
+        cout << "Not found" << endl;
+    }else{
+        cout << "Found number greater than 5:" << *it << endl;
+    }
+    // 二元谓词
+    sort(v.begin(),v.end(),SortMaxToMin());
+    print_vector(v);
+}
+
+/* 内建函数对象 */
+#include <functional>
+void use_build_in_funcfion_object(){
+    // 算术仿函数
+    //取反仿函数
+    negate<int>n;
+    cout << "取反仿函数:" << n(50) << endl;
+    //加法仿函数
+    plus<int>p;
+    cout << "加法仿函数:" << p(10,20) << endl;
+
+    // 关系仿函数
+    // 大于
+    vector<int>v;
+    for(int i=0;i<10;i++){
+        v.push_back(i);
+    }
+    // descending order
+    sort(v.begin(),v.end(),greater<int>());
+    cout << "关系仿函数:";
+    print_vector(v);
+
+    // 逻辑仿函数
+    cout << "逻辑仿函数(逻辑非):";
+    // 利用逻辑非旳将容器v搬运到容器v2中,并执行取反操作
+    vector<bool>v2;
+    v2.resize(v.size());
+    transform(v.begin(),v.end(),v2.begin(),logical_not<bool>());
+    for(auto it=v2.begin();it != v2.end();it++){
+        cout << *it << " ";
+    }
+    cout << endl;
+}
+
+
+void print_int(int val){
+    cout << val << " ";
+}
+class Transform{
+public:
+    int operator()(int v){
+        return v;
+    }
+};
+class GreaterAge20{
+public:
+    bool operator()(const Person &p){
+        if(p.age>20){
+            return true;
+        }else{
+            return false;
+        }
+    }
+};
+void use_common_alogrithm(){
+    /* STL-常用算法 */
+    vector<int>v;
+    for(int i=0;i<10;i++){
+        v.push_back(i);
+    }
+    // for_each
+    for_each(v.begin(),v.end(),print_int);
+    cout << endl;
+    // transform
+    vector<int>v2;
+    v2.resize(v.size());
+    transform(v.begin(),v.end(),v2.begin(),Transform());
+    print_vector(v2);
+
+    // 常用查找算法
+    // 查找内置数据类型
+    // 查找容器中是否有5这个元素
+    auto it = find(v.begin(),v.end(),5);
+    if(it==v.end()){
+        cout << "Not found 5" << endl;
+    }else{
+        cout << "Found number:" << *it << endl;
+    }
+    // 查找自定义数据类型
+    Person p1(20,"Tom");
+    Person p2(30,"jack");
+    Person p4(30,"jack");
+    Person p3(21,"lucy");
+    vector<Person>v3;
+    v3.push_back(p1);
+    v3.push_back(p2);
+    v3.push_back(p3);
+    vector<Person>::iterator it2 = find(v3.begin(),v3.end(),p2);
+    if(it2==v3.end()){
+        cout << "Not found p2" << endl;
+    }else{
+        cout << "found p2:";
+        cout << " Name:" << (*it2).name << " Age:" << (*it2).age << endl;
+    }
+
+    // find_if
+    auto it3 = find_if(v.begin(),v.end(),GreaterFive());
+    if(it3==v.end()){
+        cout << "Not found > 5 number" << endl;
+    }else{
+        cout << "found number > 5:";
+        cout << *it3 << endl;
+    }
+    // 自定义数据类型
+    auto it4 = find_if(v3.begin(),v3.end(),GreaterAge20());
+    if(it4==v3.end()){
+        cout << "Not found Person age > 20" << endl;
+    }else{
+        cout << "found Person age > 20:";
+        cout << " Name:" << (*it4).name << " Age:" << (*it4).age << endl;
+    }
+
+    // adjacent_find
+    vector<int>v4;
+    v4.push_back(0);
+    v4.push_back(1);
+    v4.push_back(1);
+    v4.push_back(2);
+    auto it5 = adjacent_find(v4.begin(),v4.end());
+    if(it5==v4.end()){
+        cout << "Not found repeating element" << endl;
+    }else{
+        cout << "found repeating element:";
+        cout << *it5 << endl;
+    }
+
+    // binary_search
+    print_vector(v);
+    auto it6 = binary_search(v.begin(),v.end(),7);
+    if(it6){
+        cout << "found value:";
+        cout << it6 << endl;
+    }else{
+        cout << "Not found" << endl;
+    }
+
+    // count
+    int num = count(v4.begin(),v4.end(),1);
+    cout << "Value 1 count:" << num << endl;
+    // 自定义数据类型
+    // count same age and same name person
+    num = count(v3.begin(),v3.end(),p4);
+    cout << p4.age << " age people count:" << num+1 << endl;
+
+    // count_if
+    num = count_if(v.begin(),v.end(),GreaterFive());
+    cout << "Value > 5 count:" << num << endl;
+    // 自定义数据类型
+    // count age > 20 person
+    num = count_if(v3.begin(),v3.end(),GreaterAge20());
+    cout << "Age > 20 person count:" << num << endl;
+
+    // 常用排序算法
+    // sort
+    // merge
+    vector<int>v5;
+    v5.resize(v.size()+v2.size());
+    merge(v.begin(),v.end(),v2.begin(),v2.end(),v5.begin());
+    print_vector(v5);
+    // random_shuffle
+    // 利用洗牌算法打乱顺序
+    // srand((unsigned int)time(NULL));  可以添加随机数种子
+    cout << "洗牌算法打乱顺序前:";
+    print_vector(v2);
+    random_shuffle(v2.begin(),v2.end());
+    cout << "洗牌算法打乱顺序后:";
+    print_vector(v2);
+
+
+
+}
+
+
+
+
+
+
+
 int main() {
     cout << "\tvector存放内置数据类型:" << endl;
     use_vector_1(); // vector存放内置数据类型
@@ -1365,5 +1619,17 @@ int main() {
     use_map_5();    // map容器排序
     cout << "\t案例-员工分组:" << endl;
     case_2();   // 案例-员工分组
+
+    cout << "\n\t函数对象使用:" << endl;
+    use_function_objet_1(); // 函数对象使用
+
+    cout << "\n\t谓词:" << endl;
+    use_sentential_function_1();    // 谓词
+
+    cout << "\n\t内建函数对象:" << endl;
+    use_build_in_funcfion_object(); // 内建函数对象
+
+    cout << "\n\tSTL-常用算法:" << endl;
+    use_common_alogrithm(); // STL-常用算法
     return 0;
 }

@@ -609,4 +609,314 @@
         函数对象超出普通函数的概念，函数对象可以有自己的状态
         函数对象可以作为参数传递
 
+
+<h4>谓词</h4>
+    谓词概念:
+        返回bool类型的仿函数称为谓词
+        如果operator()接受一个参数，那么叫做一元谓词
+        如果operator()接受两个参数，那么叫做二元谓词
+
+
+<h4>内建函数对象</h4>
+    内建函数对象意义
+    概念:
+        . STL内建了—些函数对象
+    分类:
+        ·算术仿函数
+        ·关系仿函数
+        ·逻辑仿函数
+    用法:
+        ·这些仿函数所产生的对象，用法和—般函数完全相同
+        ·使用内建函数对象，需要引入头文件|#include&lt;functional>
+<h5>算术仿函数</h5>
+    功能描述:
+        ·实现四则运算
+        ·其中negate是一元运算，其他都是二元运算
+    仿函数原型:
+        template&lt;class T> T plus&lt;T>         //加法仿函数
+        template&lt;class T> T minus&lt;T>        //减法仿函数
+        template&lt;class T> T multiplies&lt;T>    //乘法仿函数
+        template&lt;class T> T divides&lt;T>      //除法仿函数
+        template&lt;class T> T modulus&lt;T>      //取模仿函数
+        template&lt;class T> T negate&lt;T>       //取反仿函数
+
+<h5>关系仿函数</h5>
+    功能描述:
+        ·实现关系对比
+    仿函数原型:
+        template&lt;class t> bool equal_to&lt;T>          //等于
+        template&lt;class T> bool not_equal_to&lt;T>      //不等于
+        template&lt;class t> bool greater&lt;T>           //大于
+        template&lt;class T> bool greater_equal&lt;T>     //大于等于
+        template&lt;class T> bool less&lt;T>              //小于
+        template&lt;class T> bool less_equal&lt;T>        //小于等于
+
+<h5>逻辑仿函数</h5>
+    功能描述:
+        实现逻辑运算
+    函数原型:
+        template&lt;class r> bool logical_and&lt;T>       //逻辑与
+        template&lt;class r> bool logical_or&lt;T>        //逻辑或
+        template&lt;class r> bool logical_not&lt;T>       //逻辑非
+
+<h4>STL-常用算法</h4>
+    概述:
+        ·算法主要是由头文件&lt;algorithm>&lt;functional>&lt;numeric>组成。
+        &lt;algorithm>是所有STL头文件中最大的一个，范围涉及到比较、交换、查找、遍历操作、复制、修改等等
+        &lt;numeric>体积很小，只包括几个在序列上面进行简单数学运算的模板函数
+        &lt;functional>定义了—些模板类,用以声明函数对象。
+
+    常用遍历算法
+    算法简介:
+        for_each        //遍历容器
+        transform       //搬运容器到另一个容器中
+    
+    for_each
+        功能描述:
+            实现遍历容器
+            函数原型:
+                for_each(iterator beg, iterator end，_func);     
+                    //遍历算法遍历容器元素
+                    // beg开始迭代器
+                    // end结束迭代器
+                    // _func函数或者函数对象
+    
+    transform
+        功能描述:
+            搬运容器到另—个容器中
+        函数原型:
+            transform(iterator beg1， iterator end1， iterator beg2，_func);
+                //beg1源容器开始迭代器
+                //end1源容器结束迭代器
+                //beg2目标容器开始迭代器
+                //_func函数或者函数对象
+
+    常用查找算法
+    算法简介:
+    find            //查找元素
+    find_if         //按条件查找元素
+    adjacent_find   //查找相邻重复元素
+    binary_search   //二分查找法
+    count           //统计元素个数
+    count_if        //按条件统计元素个数
+    
+    find功能描述:
+        ·查找指定元素，找到返回指定元素的迭代器，找不到返回结束迭代器end()
+    
+    函数原型:
+        find(iterator beg, iterator end，value);
+            //按值查找元素，找到返回指定位置迭代器，找不到返回结束迭代器位置
+            // beg开始迭代器
+            // end结束迭代器
+            // value查找的元素
+
+    find_if功能描述:
+        ·按条件查找元素
+    函数原型:
+        find_if(iterator beg，iterator end，_pred);
+            //按值查找元素，找到返回指定位置迭代器，找不到返回结束迭代器位置
+            // beg开始迭代器
+            // end结束迭代器
+            // _Pred函数或者谓词（返回bool类型的仿函数)
+
+    adjacent_find功能描述:
+        .查找相邻重复元素
+    函数原型:
+        adjacent_find(iterator beg， iterator end);
+            //查找相邻重复元素,返回相邻元素的第一个位置的迭代器
+            // beg开始迭代器
+            // end结束迭代器
+
+    binary_search功能描述:
+        查找指定元素是否存在
+    函数原型:
+        bool binary_search(iterator beg， iterator end，value);
+            //查找指定的元素，查到返回true否则false
+            //注意:在无序序列中不可用
+            // beg开始迭代器
+            // end结束迭代器
+            // value查找的元素
+    
+    count功能描述:
+        统计元素个数
+    函数原型:
+        count(iterator beg， iterator end，value);
+            // 统计元素出现次数
+            // beg开始迭代器
+            // end结束迭代器
+            // value统计的元素
+
+    count_if功能描述:
+        ·按条件统计元素个数
+    函数原型:
+        count_if(iterator beg, iterator end，_pred);
+            // 按条件统计元素出现次数
+            // beg开始迭代器
+            // end结束迭代器
+            // _Pred 谓词
+    
+    常用排序算法
+    算法简介:
+        sort            //对容器内元素进行排序
+        random_shuffle  //洗牌指定范围内的元素随机调整次序
+        merge           //容器元素合并，并存储到另—容器中
+        reverse         //反转指定范围的元素
+    
+    sort功能描述:
+        . 对容器内元素进行排序
+    函数原型:
+        sort(iterator beg， iterator end，_pred);
+            //按值查找元素，找到返回指定位置迭代器，找不到返回结束迭代器位置
+            //beg开始迭代器
+            //_pred 谓词
+
+    random_shuffle功能描述:
+        ·洗牌指定范围内的元素随机调整次序
+    函数原型:
+        random_shuffle(iterator beg， iterator end);
+            //指定范围内的元素随机调整次序
+            // beg开始迭代器
+            // end结束迭代器
+
+    merge功能描述:
+        .两个容器元素合并，并存储到另—容器中
+    函数原型:
+        merge(iterator beg1，iterator end1，iterator beg2，iterator end2，iterator dest);
+            //容器元素合并，并存储到另—容器中
+            注意:两个容器必须是有序的
+            // beg1容器1开始迭代器
+            // end1容器1结束迭代器
+            // beg2容器2开始迭代器
+            // end2容器2结束迭代器
+            // dest目标容器开始迭代器
+
+    reverse功能描述:
+        .将容器内元素进行反转
+    函数原型:
+        reverse(iterator beg， iterator end);
+            // 反转指定范围的元素
+            // beg开始迭代器
+            // end结束迭代器
+
+    常用拷贝和替换算法
+    算法简介:
+        copy        //容器内指定范围的元素拷贝到另—容器中
+        replace     //将容器内指定范围的旧元素修改为新元素
+        replace_if  //容器内指定范围满足条件的元素替换为新元素
+        swap        //互换两个容器的元素
+    
+    copy功能描述:
+        .容器内指定范围的元素拷贝到另—容器中
+    函数原型:
+        copy(iterator beg， iterator end，iterator dest);
+        //按值查找元素，找到返回指定位置迭代器，找不到返回结束迭代器位置
+
+    replace功能描述:
+        将容器内指定范围的旧元素修改为新元素
+    函数原型:
+        replace(iterator beg， iterator end，oldvalue，newvalue);
+        //将区间内旧元素替换成新元素
+        // beg开始迭代器
+        // end结束迭代器
+        // oldvalue 旧元素
+        // newvalue新元素
+
+    replace_if功能描述:
+        ·将区间内满足条件的元素，替换成指定元素
+    函数原型:
+        replace_if(iterator beg， iterator end，_pred，newvalue);
+        //按条件替换元素，满足条件的替换成指定元素
+        // beg开始迭代器
+        // end结束迭代器
+        // _pred谓词
+        // newalue替换的新元素
+    
+    swap功能描述:
+        互换两个容器的元素
+    函数原型:
+        swap(container c1,container c2);
+        //互换两个容器的元素
+        // c1容器1
+        // c2容器2
+
+    常用算术生成算法
+    注意:
+        ·算术生成算法属于小型算法，使用时包含的头文件为#include &lt;numeric>
+    算法简介:
+        accumulate          //计算容器元素累计总和
+        fill                //向容器中添加元素
+        
+    accumulate功能描述:
+        ·计算区间内容器元素累计总和
+    函数原型:
+        accumulate(iterator beg，iterator end，value);
+        //计算容器元素累计总和
+        // beg开始迭代器
+        // end 结束迭代器
+        // value起始值
+
+    fll功能描述:
+        ·向容器中填充指定的元素
+    函数原型:
+        fill(iterator beg， iterator end， value);
+        //向容器中填充元素
+        //beg开始迭代器
+        //end结束迭代器
+        //value填充的值
+
+    
+    常用集合算法
+    算法简介:
+        set_intersection    //求两个容器的交集
+        set_union           //求两个容器的并集
+        set_difference      //求两个容器的差集
+    
+    set_intersection功能描述:
+        ·求两个容器的交集
+    
+    函数原型;
+        set_intersection(iterator beg1，iterator end1，iterator beg2，iterator end2，iterator dest);
+        求两个集合的交集
+        注意:两个集合必须是有序序列
+        // beg1容器1开始迭代器
+        // end1容器1结束迭代器
+        // beg2容器2开始迭代器
+        // end2容器2结束迭代器
+        // dest目标容器开始迭代器
+    总结:
+        求交集的两个集合必须的有序序列
+        目标容器开辟空间需要从两个容器中取小值
+        set_intersection返回值是交集中最后一个元素的位置
+
+    set_union功能描述:
+        ·求两个集合的并集
+    函数原型:
+        set_union(iterator beg1，iterator end1，iterator beg2，iterator end2，iterator dest);
+        //求两个集合的并集
+        注意:两个集合必须是有序序列
+        // beg1容器1开始迭代躏
+        // end1容器1结束迭代器
+        // beg2容器2开始迭代器
+        // end2容器2结束迭代器
+        // dest目标容器开始迭代器
+    总结:
+        求并集的两个集合必须的有序序列
+        目标容器开辟空间需要两个容器相加
+        set_union返回值既是并集中最后一个元素的位置
+
+    set_difference功能描述:
+        求两个集合的差集
+    函数原型:
+        set_difference(iterator beg1，iterator end1，iterator beg2，iterator end2，iterator dest);
+        求两个集合的差集
+        注意:两个集合必须是有序序列
+        beg1容器1开始迭代器
+        end1容器1结束迭代器
+        beg2容器2开始迭代器
+        end2容器2结束迭代器
+        dest目标容器开始迭代器
+    总结:
+        ·求差集的两个集合必须的有序序列
+        ·目标容器开辟空间需要从两个容器取较大值
+        .set_difference返回值既是差集中最后一个元素的位置
 </pre>
