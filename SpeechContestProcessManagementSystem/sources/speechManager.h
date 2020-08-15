@@ -6,6 +6,9 @@
 #include <vector>
 #include <map>
 #include "speaker.h"
+#include <algorithm>
+#include <deque>
+#include <numeric>
 using namespace std;
 
 class SpeechManager {
@@ -22,7 +25,8 @@ public:
     void init_speech();     // 初始化容器和属性
     void create_speaker();  // 创建选手
     void start_speech();    // 开始比赛
-
+    void random_draw();     // 随机抽签
+    void sppech_contest();  // 比赛
     ~SpeechManager();
 };
 
