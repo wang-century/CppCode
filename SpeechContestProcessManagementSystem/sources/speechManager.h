@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <deque>
 #include <numeric>
+#include <fstream>
 using namespace std;
 
 class SpeechManager {
@@ -19,6 +20,9 @@ public:
     vector<int>victory_v;       // 前三名选手编号
     map<int,Speaker>speaker_m;  // 编号及对应选手
     int turn_count; // 比赛轮次
+    bool data_file_empty;   // 用于判断数据文件是否为空
+    vector<int,vector<string>>history_v;    // 存放往届成绩记录
+
 
     SpeechManager();
     void show_menu();
@@ -27,6 +31,9 @@ public:
     void start_speech();    // 开始比赛
     void random_draw();     // 随机抽签
     void sppech_contest();  // 比赛
+    void show_score();      // 显示得分
+    void save_data();       // 保存数据到文件
+    void show_history();    // 查看记录
     ~SpeechManager();
 };
 

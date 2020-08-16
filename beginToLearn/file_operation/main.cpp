@@ -25,7 +25,7 @@ void read_file(string path) {
     // 3.打开文件并判断文件是否打开成功
     ifs.open(path, ios::in);
     if (!ifs.is_open()) {
-        cout << "File open fal!" << endl;
+        cout << "File open fail!" << endl;
         return;
     }
     // 4.读数据

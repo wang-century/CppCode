@@ -1,28 +1,31 @@
 #include <iostream>
 #include "sources/speechManager.h"
+#include <time.h>
 using namespace std;
 
 
 int main(){
-    SpeechManager manager;  // åˆ›å»ºç®¡ç†ç±»å¯¹è±¡
-
-    int choice = 0;     // å­˜å‚¨ç”¨æˆ·è¾“å…¥
+    SpeechManager manager;  // ´´½¨¹ÜÀíÀà¶ÔÏó
+    srand((int)time(nullptr));
+    int choice = 0;     // ´æ´¢ÓÃ»§ÊäÈë
     while (true){
-        manager.show_menu();    // æ˜¾ç¤ºèœå•
-        cout << "è¯·é€‰æ‹©ï¼š";
+        manager.show_menu();    // ÏÔÊ¾²Ëµ¥
+        cout << "ÇëÑ¡Ôñ:";
         cin >> choice;
         switch (choice) {
-            case 1:     // å¼€å§‹æ¼”è®²æ¯”èµ›
+            case 1:     // ¿ªÊ¼Ñİ½²±ÈÈü
                 manager.start_speech();
                 break;
-            case 2:     // æŸ¥çœ‹å¾€å±Šè®°å½•
-            case 3:     // æ¸…ç©ºæ¯”èµ›è®°å½•
+            case 2:     // ²é¿´Íù½ì¼ÇÂ¼
+                manager.show_history();
                 break;
-            case 4:     // é€€å‡ºæ¯”èµ›ç¨‹åº
-                cout << "ç¨‹åºé€€å‡º" << endl;
+            case 3:     // Çå¿Õ±ÈÈü¼ÇÂ¼
+                break;
+            case 4:     // ÍË³ö±ÈÈü³ÌĞò
+                cout << "³ÌĞòÍË³ö" << endl;
                 return 0;
             default:
-                cout << "è¾“å…¥é”™è¯¯!é‡æ–°è¾“å…¥" << endl;
+                cout << "ÊäÈë´íÎó!ÖØĞÂÊäÈë" << endl;
         }
     }
 }
