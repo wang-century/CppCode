@@ -21,7 +21,7 @@ public:
     map<int,Speaker>speaker_m;  // 编号及对应选手
     int turn_count; // 比赛轮次
     bool data_file_empty;   // 用于判断数据文件是否为空
-    vector<int,vector<string>>history_v;    // 存放往届成绩记录
+    map<int,vector<string>>history_m;    // 存放往届成绩记录
 
 
     SpeechManager();
@@ -34,6 +34,7 @@ public:
     void show_score();      // 显示得分
     void save_data();       // 保存数据到文件
     void show_history();    // 查看记录
+    void clear_data();      // 清空记录
     ~SpeechManager();
 };
 

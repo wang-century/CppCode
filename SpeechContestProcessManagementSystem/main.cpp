@@ -5,27 +5,28 @@ using namespace std;
 
 
 int main(){
-    SpeechManager manager;  // ´´½¨¹ÜÀíÀà¶ÔÏó
-    srand((int)time(nullptr));
-    int choice = 0;     // ´æ´¢ÓÃ»§ÊäÈë
+    SpeechManager manager;  // åˆ›å»ºç®¡ç†ç±»å¯¹è±¡
+    srand((unsigned int)time(nullptr));
+    int choice = 0;     // å­˜å‚¨ç”¨æˆ·è¾“å…¥
     while (true){
-        manager.show_menu();    // ÏÔÊ¾²Ëµ¥
-        cout << "ÇëÑ¡Ôñ:";
+        manager.show_menu();    // æ˜¾ç¤ºèœå•
+        cout << "è¯·é€‰æ‹©:";
         cin >> choice;
         switch (choice) {
-            case 1:     // ¿ªÊ¼Ñİ½²±ÈÈü
+            case 1:     // å¼€å§‹æ¼”è®²æ¯”èµ›
                 manager.start_speech();
                 break;
-            case 2:     // ²é¿´Íù½ì¼ÇÂ¼
+            case 2:     // æŸ¥çœ‹å¾€å±Šè®°å½•
                 manager.show_history();
                 break;
-            case 3:     // Çå¿Õ±ÈÈü¼ÇÂ¼
+            case 3:     // æ¸…ç©ºæ¯”èµ›è®°å½•
+                manager.clear_data();
                 break;
-            case 4:     // ÍË³ö±ÈÈü³ÌĞò
-                cout << "³ÌĞòÍË³ö" << endl;
+            case 4:     // é€€å‡ºæ¯”èµ›ç¨‹åº
+                cout << "ç¨‹åºé€€å‡º" << endl;
                 return 0;
             default:
-                cout << "ÊäÈë´íÎó!ÖØĞÂÊäÈë" << endl;
+                cout << "è¾“å…¥é”™è¯¯!é‡æ–°è¾“å…¥" << endl;
         }
     }
 }
